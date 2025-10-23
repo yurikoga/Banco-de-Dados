@@ -13,14 +13,27 @@ Nestes exercícios, você vai explorar o banco de dados SQL do Oscar e responder
 ### Conhecendo a Base de Dados
 
 **1.1** Quantos registros existem na tabela de indicados ao Oscar?
+R:
+     SELECT COUNT(*) FROM indicados_ao_oscar; 
 
 **1.2** Quais são as diferentes categorias de premiação que existem no banco de dados? Liste todas as categorias únicas.
+R:
+      SELECT DISTINCT categoria FROM indicados_ao_oscar; -- 
+      SELECT COUNT(DISTINCT categoria) FROM indicados_ao_oscar; -- Quantidade de categorias unicas -- 115
 
 **1.3** Qual foi o primeiro ano de cerimônia do Oscar registrado na base?
+R: 1928
+      SELECT MIN(ano_cerimonia) FROM indicados_ao_oscar;
+      SELECT DISTINCT ano_cerimonia AS Anos FROM indicados_ao_oscar ORDER BY ano_cerimonia ASC LIMIT 3 ;
 
 **1.4** Qual foi o último ano de cerimônia registrado na base?
-
+R: 2024
+      SELECT MAX(ano_cerimonia) FROM indicados_ao_oscar;
+      SELECT DISTINCT ano_cerimonia AS Anos FROM indicados_ao_oscar ORDER BY ano_cerimonia DESC LIMIT 3 ;
+      
 **1.5** Quantas cerimônias do Oscar estão registradas no total?
+R: 96
+      SELECT COUNT(DISTINCT ano_cerimonia) FROM indicados_ao_oscar;
 
 **1.6** Atualize os registros da tabela com os dados do Oscar 2025 (pesquise os vencedores e adicione-os).
 
@@ -29,12 +42,30 @@ Nestes exercícios, você vai explorar o banco de dados SQL do Oscar e responder
 ## 🎬 Nível 2: Explorando Categorias
 
 **2.1** Quantas indicações existem para cada categoria? Agrupe por categoria e ordene da mais frequente para a menos frequente.
+    R: SELECT categoria, COUNT(*) AS total
+      FROM indicados_ao_oscar
+      GROUP BY categoria --
+         Agrupa por categoria
+      ORDER BY total DESC; 
+         e ordene da mais frequente para a menos frequente
 
 **2.2** Qual categoria teve mais indicações ao longo da história do Oscar?
+R:      DIRECTING com 469 indicações, além de FILM EDITING com 450 indicações e ACTOR IN A SUPPORTING ROLE com 440.
+         SELECT categoria, COUNT(*) AS total
+         FROM indicados_ao_oscar
+         GROUP BY categoria ORDER BY total DESC LIMIT 3;
 
 **2.3** Qual categoria teve menos indicações ao longo da história?
+R:      SELECT categoria, COUNT(*) = 1 AS total FROM indicados_ao_oscar GROUP BY categoria ORDER BY total DESC;
+            SPECIAL ACHIEVEMENT AWARD (Sound Effects)
+            SPECIAL ACHIEVEMENT AWARD (Sound Editing)
+            GORDON E. SAWYER AWARD
+            AWARD OF COMMENDATION
+         todos com UMA indição
 
 **2.4** A partir de que ano a categoria "ACTRESS" deixou de existir? (Dica: procure a última cerimônia com essa categoria)
+R: A partir de 1976, ultimo ano em uma cerimônia
+         SELECT DISTINCT ano_cerimonia, categoria  FROM indicados_ao_oscar WHERE categoria LIKE "%ACTRESS";
 
 **2.5** Quais categorias existiam na primeira cerimônia (1928) e não existem mais hoje?
 
