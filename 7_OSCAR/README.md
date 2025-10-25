@@ -67,9 +67,16 @@ R:      SELECT categoria, COUNT(*) = 1 AS total FROM indicados_ao_oscar GROUP BY
 R: A partir de 1976, ultimo ano em uma cerimônia
          SELECT DISTINCT ano_cerimonia, categoria  FROM indicados_ao_oscar WHERE categoria LIKE "%ACTRESS";
 
+
 **2.5** Quais categorias existiam na primeira cerimônia (1928) e não existem mais hoje?
+R: ###SELECT DISTINCT categoria, ano_cerimonia FROM indicados_ao_oscar WHERE ano_cerimonia LIKE "%2024%" OR ano_cerimonia LIKE "%1928%";###
+
 
 **2.6** Liste todas as categorias que contêm a palavra "DIRECTING" no nome.
+R: DIRECTING (Comedy Picture)
+DIRECTING (Dramatic Picture)
+DIRECTING
+SELECT DISTINCT categoria FROM indicados_ao_oscar WHERE categoria LIKE "%DIRECTING%";
 
 ---
 
@@ -78,12 +85,24 @@ R: A partir de 1976, ultimo ano em uma cerimônia
 ### Natalie Portman
 
 **3.1** Quantas vezes Natalie Portman foi indicada ao Oscar?
+R: indicada três vezes 2005, 2011, 2017.
+SELECT ano_cerimonia ,nome_indicado, nome_filme, vencedor FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Natalie Portman%";
 
 **3.2** Quantos Oscars Natalie Portman ganhou?
+R: ganhou uma vez em 2011 no filme Black Swan como ACTRESS IN A LEADING ROLE.
+SELECT ano_cerimonia ,nome_indicado, nome_filme, categoria, vencedor FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Natalie Portman%";
 
 **3.3** Em quais anos e por quais filmes Natalie Portman foi indicada?
+R: filmes: Closer
+Black Swan
+Jackie
+anos: 2005
+2011
+2017
+SELECT ano_cerimonia ,nome_indicado, nome_filme FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Natalie Portman%";
 
 **3.4** Liste todas as indicações de Natalie Portman mostrando: ano, categoria, filme e se venceu.
+R: SELECT nome_indicado, ano_cerimonia, categoria, nome_filme, vencedor FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Natalie Portman%";
 
 ### Viola Davis
 
