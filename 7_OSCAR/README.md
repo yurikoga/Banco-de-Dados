@@ -83,7 +83,6 @@ SELECT DISTINCT categoria FROM indicados_ao_oscar WHERE categoria LIKE "%DIRECTI
 ## 🌟 Nível 3: Atores e Atrizes Famosos
 
 ### Natalie Portman
-
 **3.1** Quantas vezes Natalie Portman foi indicada ao Oscar?
 R: indicada três vezes 2005, 2011, 2017.
 SELECT ano_cerimonia ,nome_indicado, nome_filme, vencedor FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Natalie Portman%";
@@ -105,45 +104,66 @@ SELECT ano_cerimonia ,nome_indicado, nome_filme FROM indicados_ao_oscar WHERE no
 R: SELECT nome_indicado, ano_cerimonia, categoria, nome_filme, vencedor FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Natalie Portman%";
 
 ### Viola Davis
-
 **3.5** Quantas vezes Viola Davis foi indicada ao Oscar?
-
+R: indicada 4 vezes.
+     SELECT nome_indicado FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Viola Davis%" ;
+     
 **3.6** Quantos Oscars Viola Davis ganhou?
-
+R: uma única vez em 2027
+     SELECT nome_indicado,vencedor, ano_cerimonia FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Viola Davis%";
+     
 **3.7** Por quais filmes Viola Davis foi indicada?
-
+R:Doubt, The Help, Fences e Ma Rainey's Black Bottom.
+     SELECT nome_indicado, nome_filme FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Viola Davis%";
+     
 ### Amy Adams
-
 **3.8** Amy Adams já ganhou algum Oscar?
+R: Não ganhou nenhum oscar.
+     SELECT nome_indicado, vencedor FROM indicados_ao_oscar WHERE nome_indicado LIKE "%amy adams%" ;
 
 **3.9** Quantas vezes Amy Adams foi indicada sem ganhar?
+R: Seis vezes ao todo.
+     SELECT COUNT(nome_indicado)AS vezesAmyAdamsFoiIndicada FROM indicados_ao_oscar WHERE nome_indicado LIKE "%amy adams%" ;
 
 ### Denzel Washington
-
 **3.10** Denzel Washington já ganhou algum Oscar?
-
+R: Duas vezes.
+     SELECT nome_indicado, vencedor FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Denzel Washington%" AND vencedor LIKE 1;
+     
 **3.11** Quantas vezes Denzel Washington foi indicado ao Oscar?
+R: 10 vezes.
+     SELECT COUNT(nome_indicado) FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Denzel Washington%";
 
 **3.12** Liste todos os Oscars que Denzel Washington ganhou (ano, categoria, filme).
+R:  SELECT nome_indicado, ano_cerimonia, categoria, nome_filme FROM indicados_ao_oscar WHERE nome_indicado LIKE "%Denzel Washington%";
 
 ---
 
 ## 🏆 Nível 4: Vencedores Históricos
 
 **4.1** Quem ganhou o primeiro Oscar para Melhor Atriz (ACTRESS)? Em que ano e por qual filme?
+R: 1928 onde Janet Gaynor recebeu o primeiro Oscar como melhor atriz no filme 7th Heaven.
+     SELECT id_registro, categoria, ano_cerimonia, nome_indicado, nome_filme, vencedor FROM indicados_ao_oscar WHERE categoria LIKE "%ACTRESS%" AND vencedor LIKE 1 LIMIT 1;
 
 **4.2** Quem ganhou o primeiro Oscar para Melhor Ator (ACTOR)? Em que ano e por qual filme?
+R: 1928 onde Emil Jannings recebeu o primeiro Oscar como melhor ator no filme The Last Command.
+     SELECT id_registro, categoria, ano_cerimonia, nome_indicado, nome_filme, vencedor FROM indicados_ao_oscar WHERE categoria LIKE "%actor%" AND vencedor LIKE 1 LIMIT 1;
 
 **4.3** Quantos vencedores existem ao todo na base de dados?
-
+R: 2465
+     SELECT COUNT(vencedor) FROM indicados_ao_oscar WHERE vencedor LIKE 1;
+     
 **4.4** Liste todos os filmes que ganharam o Oscar de Melhor Filme (categoria "OUTSTANDING PICTURE" ou "BEST PICTURE").
+R: SELECT * FROM indicados_ao_oscar WHERE categoria LIKE "%OUTSTANDING PICTURE%" AND vencedor LIKE 1;
+SELECT * FROM indicados_ao_oscar WHERE categoria LIKE "%BEST PICTURE%" AND vencedor LIKE 1;
+através dessas linhas de código é possível verificar os filmes ganhadores.
 
 **4.5** Quantos filmes diferentes já ganharam o Oscar?
-
+R: 1328
+     SELECT COUNT(DISTINCT nome_filme) FROM indicados_ao_oscar WHERE vencedor LIKE 1;
 ---
 
 ## 🎭 Nível 5: Análise de Indicações
-
 **5.1** Quais atores/atrizes foram indicados mais de uma vez? Liste o nome e o número de indicações.
 
 **5.2** Qual ator ou atriz tem o maior número de indicações na história do Oscar?
