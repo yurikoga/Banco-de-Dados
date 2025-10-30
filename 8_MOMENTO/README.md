@@ -13,9 +13,13 @@ Nestes exercícios, você vai explorar o banco de dados MongoDB da empresa e res
 ### Seu Primeiro Dia na Momento
 
 Você acabou de ser contratado pela Momento! Vamos começar incluindo você no sistema.
+
 **1.2** Agora que você faz parte da equipe, quantos funcionários temos ao total na empresa?
+R: A empresa possui 43 funcionarios, contando comigo.
+   select distinct count(funcionario_id) as qtd_funci_depart, cargos.cargo_nome, cargos.cargo_id FROM cargos inner join funcionarios on funcionarios.cargo_id = cargos.cargo_id group by cargo_id;
 
 **1.3** Quantos funcionários trabalham especificamente no Departamento de Tecnologia?
+R:
 
 **1.4** Liste todos os departamentos que existem na empresa. Quantos são?
 
