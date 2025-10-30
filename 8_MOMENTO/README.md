@@ -1,3 +1,17 @@
+-- Busca da tabela principal
+SELECT CONCAT(primeiro_nome, " ",sobrenome ) AS FULL_NAME,
+email, 
+departamento_nome AS DEPARTAMENTO, 
+salario FROM funcionarios
+
+-- juntando a tabela secundária
+INNER JOIN departamentos
+
+-- com a condição:
+ON funcionarios.departamento_id = departamentos.departamento_id
+WHERE funcionarios.departamento_id = 6;
+
+
 # Momento 
 
 Bem-vindo à base de dados da empresa **Momento**!
@@ -19,11 +33,20 @@ R: A empresa possui 43 funcionarios, contando comigo.
    select distinct count(funcionario_id) as qtd_funci_depart, cargos.cargo_nome, cargos.cargo_id FROM cargos inner join funcionarios on funcionarios.cargo_id = cargos.cargo_id group by cargo_id;
 
 **1.3** Quantos funcionários trabalham especificamente no Departamento de Tecnologia?
-R:
+R: ao todo trabalham 5 funcionários da área de tecnologia.
+      select count(funcionarios.funcionario_id) as qtd_funcionarios, departamentos.departamento_nome from funcionarios inner join departamentos on funcionarios.departamento_id = departamentos.departamento_id where funcionarios.departamento_id = 6;
+   sendo eles: Alexander Hunold, Bruce Ernst, David Austin, Valli Stark e Diana Lorentz.
+      select funcionarios.funcionario_id, concat(funcionarios.primeiro_nome, " ", funcionarios.sobrenome) as nome_funcionario, departamentos.departamento_nome from funcionarios inner join departamentos on funcionarios.departamento_id = departamentos.departamento_id where funcionarios.departamento_id = 6;
 
 **1.4** Liste todos os departamentos que existem na empresa. Quantos são?
+R: os departamentos são: Administração, Marketing, Suprimentos, Recursos Humanos, Transportes, Tecnologia, Relações Públicas, Vendas, Executivo, Finanças, Contabilidade, Biotecnologia, Tecnologias Avançadas.
+      select departamento_nome as nome_depart from departamentos,
+   sendo 13 departamentos diferentes
+      select count(departamento_nome) as qtd_depart from departamentos;
 
 **1.5** Quantos escritórios a Momento possui? Em quais países?
+R:
+
 
 ---
 
