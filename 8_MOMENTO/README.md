@@ -45,9 +45,9 @@ R: os departamentos são: Administração, Marketing, Suprimentos, Recursos Huma
       select count(departamento_nome) as qtd_depart from departamentos;
 
 **1.5** Quantos escritórios a Momento possui? Em quais países?
-R:
-
-
+R:Possui ao todo 9 escritorios que estão distribuidos nas regiões da: United States of America, Canada, United Kingdom, Wakanda, United Kingdom, Germany.
+      select escritorio_nome, escritorios.pais_id, paises.pais_nome from escritorios inner join paises on escritorios.pais_id = paises.pais_id;
+      
 ---
 
 ## Nível 2: Análise Financeira Básica
@@ -55,8 +55,18 @@ R:
 O CFO precisa de relatórios urgentes sobre os custos da empresa.
 
 **2.1** Quantos funcionários trabalham no Departamento de Vendas?
+R:Ao todo existem 5 funcionarios que trabalham no Departamento de Vendas, sendo eles: John - Russell, Karen - Partners, Jonathon - Taylor, Jack - Livingston, Kimberly - Grant
+   select 
+   	concat(funcionarios.primeiro_nome, " - ",funcionarios.sobrenome) funcionarios,
+       departamentos.departamento_nome
+   from funcionarios 
+   inner join departamentos 
+   on funcionarios.departamento_id = departamentos.departamento_id 
+   where departamentos.departamento_nome = "Vendas";
 
 **2.2** Qual é o custo total com salários do Departamento de Vendas?
+R:
+
 
 **2.3** Qual é a média salarial da empresa, excluindo os cargos de CEO, CMO e CFO?
 
