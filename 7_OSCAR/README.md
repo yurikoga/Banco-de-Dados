@@ -165,12 +165,26 @@ R: 1328
 
 ## 🎭 Nível 5: Análise de Indicações
 **5.1** Quais atores/atrizes foram indicados mais de uma vez? Liste o nome e o número de indicações.
+R: para saber a quantidade de indicacoes por nome, dentro das categorias [ select distinct nome_indicado nome, count(categoria) indi_categoria from indicados_ao_oscar where categoria like "%actor%" or categoria like "%actress%" group by nome having indi_categoria > 1 order by indi_categoria desc; ]
+
+para saber a quantidade de indicacoes exatas de nome por categorias especificas de actor/actress [ SELECT nome_indicado, categoria, COUNT(*) AS total_indicacoes FROM indicados_ao_oscar where categoria like "%actor%" or categoria like "%actress%" GROUP BY nome_indicado, categoria having total_indicacoes > 1 order by nome_indicado; ]
+
 
 **5.2** Qual ator ou atriz tem o maior número de indicações na história do Oscar?
+R: 21	Meryl Streep
+select distinct count(categoria) as indi_ctg, nome_indicado from indicados_ao_oscar  where categoria like "%actor%" or categoria like "%actress%" group by nome_indicado having indi_ctg >1 order by indi_ctg desc limit 1;
+
+[ código alternativo: SELECT nome_indicado, categoria, COUNT(categoria) AS total_indicacoes FROM indicados_ao_oscar where nome_indicado like "%meryl streep%" GROUP BY nome_indicado, categoria having total_indicacoes > 1 order by nome_indicado; ]
 
 **5.3** Quais atores foram indicados mais de 3 vezes mas nunca ganharam?
+R: select count(nome_indicado) as qtd_indica, nome_indicado, sum(vencedor) as vencedor from indicados_ao_oscar where categoria like "%actor%" and vencedor = 0 group by nome_indicado having qtd_indica > 2 order by qtd_indica desc; 
 
 **5.4** Encontre todos os artistas que foram indicados em categorias diferentes (ex: ator e diretor).
+R: == select count(nome_indicado) as qtd_indica, nome_indicado
+from indicados_ao_oscar 
+group by nome_indicado
+having qtd_indica > 1; == 
+
 
 **5.5** Quantos indicados têm exatamente 1 indicação na história?
 
