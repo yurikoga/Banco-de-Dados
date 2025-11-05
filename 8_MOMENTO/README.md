@@ -65,17 +65,62 @@ R:Ao todo existem 5 funcionarios que trabalham no Departamento de Vendas, sendo 
    where departamentos.departamento_nome = "Vendas";
 
 **2.2** Qual é o custo total com salários do Departamento de Vendas?
-R:
+R: Custo total com salários do deartamento de vendas é igual a R$ 51500,00
+   [select 
+    concat("R$ ",sum(funcionarios.salario)) salarios
+from funcionarios 
+inner join departamentos 
+on funcionarios.departamento_id = departamentos.departamento_id 
+where departamentos.departamento_nome = "Vendas" ;]
 
 
 **2.3** Qual é a média salarial da empresa, excluindo os cargos de CEO, CMO e CFO?
+R:[ -- query que mostra a média salarial da empresa, excluindo os cargos de CEO, CMO e CFO
+select 
+	avg(funcionarios.salario)
+from funcionarios
+join cargos
+on funcionarios.cargo_id = cargos.cargo_id
+where funcionarios.cargo_id not in(4,7,10);
+-- query que formata o valor obtido da média, tendo como resultado: 8,431.54
+select format(8431.538718, 2);]
 
 **2.4** Qual é a média salarial do Departamento de Tecnologia?
+R:[ -- query que mostra a média salarial do Departamento de Tecnologia
+select
+    avg(funcionarios.salario)
+from funcionarios
+join departamentos
+on funcionarios.departamento_id = departamentos.departamento_id
+where departamentos.departamento_id = 6;
+-- query que formata o valor obtido da média, tendo como resultado: 5,760.00
+select format(5760.000000,2);]
 
 **2.5** Qual departamento possui a maior média salarial?
+R:departamento de Tecnologias Avançadas com média salarial de R$21.815,00
+[select
+	departamentos.departamento_nome,
+	departamentos.departamento_id,
+    avg(funcionarios.salario) média_salarial
+from departamentos
+join funcionarios
+on funcionarios.departamento_id = departamentos.departamento_id
+group by departamentos.departamento_id
+order by média_salarial desc
+limit 1;]
+
 
 **2.6** Qual departamento possui o menor número de funcionários?
-
+R:os departamentos que possuem apenas um funcionário são administração, recursos humanos, relações púlicas, contabilidade e biotecnologia
+[select
+	count(funcionarios.departamento_id) funci_departa,
+    departamentos.departamento_nome departamento
+from departamentos
+join funcionarios
+on funcionarios.departamento_id = departamentos.departamento_id
+group by departamentos.departamento_nome
+having funci_departa = 1
+order by funci_departa;]
 ---
 
 ## Nível 3: Recursos Humanos
@@ -83,18 +128,105 @@ R:
 O RH está fazendo uma análise demográfica da empresa.
 
 **3.1** Quantos funcionários da empresa Momento possuem cônjuges?
+R:-- total de funcionarios que tem conjuges
+[select
+    count(funcionarios.primeiro_nome) funcinarios_que_tem_conjuges
+from dependentes
+inner join funcionarios
+on dependentes.funcionario_id = funcionarios.funcionario_id
+where dependentes.relacionamento like "%conjuge%"
+group by relacionamento;]
+-- são eles:
+[select
+	concat(funcionarios.primeiro_nome, " ", funcionarios.sobrenome) nome_colaborador,
+    dependentes.relacionamento tem
+from dependentes
+inner join funcionarios
+on dependentes.funcionario_id = funcionarios.funcionario_id
+where dependentes.relacionamento like "%conjuge%";]
 
 **3.2** Quantos funcionários possuem filhos registrados?
+R:[-- 32 funcionarios tem filhos
+select
+    count(funcionarios.primeiro_nome) funcinarios_que_tem_filho
+from dependentes
+inner join funcionarios
+on dependentes.funcionario_id = funcionarios.funcionario_id
+where dependentes.relacionamento like "%filha%";]
+[	-- são eles
+select
+	concat(funcionarios.primeiro_nome, " ", funcionarios.sobrenome) nome_colaborador,
+    dependentes.relacionamento tem
+from dependentes
+inner join funcionarios
+on dependentes.funcionario_id = funcionarios.funcionario_id
+where dependentes.relacionamento like "%filha%";]
 
 **3.3** Qual funcionário foi contratado há mais tempo na empresa?
+R:Steven Wayne do departamento Executivo, data de contratação: 17/06/1987.
+[select
+	funcionarios.funcionario_id,
+	funcionarios.data_contratacao,
+    concat(funcionarios.primeiro_nome, " ",funcionarios.sobrenome) nome_funcionario,
+    departamentos.departamento_nome,
+    escritorios.escritorio_nome,
+    escritorios.endereco
+from funcionarios
+inner join departamentos
+on funcionarios.departamento_id = departamentos.departamento_id
+inner join escritorios
+on departamentos.escritorio_id = escritorios.escritorio_id
+order by data_contratacao 
+limit 1;]
 
 **3.4** Qual funcionário foi contratado há menos tempo na empresa?
+R:Sabrina Portela Spellman do departamento de Finanças, data de contratação: 28/20/2024;
+[select
+	funcionarios.funcionario_id,
+	funcionarios.data_contratacao,
+    concat(funcionarios.primeiro_nome, " ",funcionarios.sobrenome) nome_funcionario,
+    departamentos.departamento_nome,
+    escritorios.escritorio_nome,
+    escritorios.endereco
+from funcionarios
+inner join departamentos
+on funcionarios.departamento_id = departamentos.departamento_id
+inner join escritorios
+on departamentos.escritorio_id = escritorios.escritorio_id
+order by data_contratacao desc
+limit 1;]
 
 **3.5** Liste os 5 funcionários com mais tempo de casa, ordenados pela data de contratação.
+R:Estes são:Steven Wayne, Jennifer Whalen, Neena Kochhar, Alexander Hunold e Bruce Ernst.
+[select
+	funcionarios.funcionario_id,
+	funcionarios.data_contratacao,
+    concat(funcionarios.primeiro_nome, " ",funcionarios.sobrenome) nome_funcionario,
+    departamentos.departamento_nome,
+    escritorios.escritorio_nome
+from funcionarios
+inner join departamentos
+on funcionarios.departamento_id = departamentos.departamento_id
+inner join escritorios
+on departamentos.escritorio_id = escritorios.escritorio_id
+having funcionarios.data_contratacao > '1980-01-01' and funcionarios.data_contratacao < '1991-12-31'
+order by data_contratacao
+limit 5;]
 
 **3.6** Quantos funcionários foram contratados na década de 1990 (entre 1990-1999)?
+R: 37 funcionarios ao todo
+[select
+	count(funcionarios.data_contratacao) total_funcionarios
+from funcionarios
+where funcionarios.data_contratacao > '1990-01-01' and funcionarios.data_contratacao < '1999-12-31';]
 
 **3.7** Como a média salarial da Momento evoluiu ao longo dos anos? Agrupe por ano de contratação e calcule a média salarial.
+R:[select 
+	data_contratacao, 
+    avg(salario) 
+from funcionarios 
+where data_contratacao > '1987-01-01' and data_contratacao < '2025-01-01'
+group by data_contratacao;]
 
 ---
 
